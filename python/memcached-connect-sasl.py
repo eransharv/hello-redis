@@ -9,11 +9,8 @@ client = bmemcached.Client(('pub-memcache-11977.us-east-1-1.2.ec2.garantiadata.c
 
 print("\nset test key...")
 print("\n>r.set(`foo`, `bar`)")
-client.set('foo', 'bar', noreply=False)
+client.set('foo', 'bar')
 
 print("\nget test key...")
 print("\n>r.get(`foo`)")
 print client.get('foo')
-
-client.quit()
-print("\ndone.")
