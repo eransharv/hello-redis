@@ -1,5 +1,5 @@
 require 'redis' #using the redis-rb, A Ruby client library for Redis
-require 'connection_pool' //Generic connection pooling for Ruby
+require 'connection_pool' #Generic connection pooling for Ruby
 
 
 #If no object is available in the pool within :timeout seconds, it  will raise an error
