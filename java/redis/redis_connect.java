@@ -16,13 +16,19 @@ public class redis_connect {
 	// // Create and set a JedisPoolConfig
 	JedisPoolConfig poolConfig = new JedisPoolConfig();
 
-	//// Tests (PING) whether connection is dead when connection retrieval method is called
+
+ 	//While it is nice to know your connections are still alive, those onBorrow PING requests are wasting an RTT before your request, and the other two tests are wasting valuable Redis resources. In theory, a connection can go bad even after the PING test so you should catch a connection exception in your code and deal with it even if you send a PING. If your network is mostly stable, and you do not have too many drops, you should remove those tests and handle this scenario in your exception catches only.
+
+	//// Tests (PING) whether connection is dead when connection retrieval method is called.  Sends a PING request when you ask for the resource.
  	poolConfig.setTestOnBorrow(false);
-	// Tests (PING) whether connection is dead when returning connection to the pool
+
+	// Tests (PING) whether connection is dead when returning connection to the pool. Sends a PING whe you return a resource to the pool.
 	poolConfig.setTestOnReturn(false);
 
-	//Tests (PING) whether connections are dead during idle periods
+	//Tests (PING) whether connections are dead during idle periods.  Sends periodic PINGS from idle resources in the pool.
         poolConfig.setTestWhileIdle(false);
+
+
 
    	//Number of connections to Redis that can be in the pool
       	poolConfig.setMaxTotal(50);
