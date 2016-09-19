@@ -5,15 +5,42 @@ import redis.clients.jedis.Protocol;
 
 public class redis_connect {
 
+//Example of a JedisPoolConfig that has good configuration with our 
+
     public static void main(String[] args) {
          
 	//localhostJedis j = new Jedis("pub-redis-13628.us-east-1-2.1.ec2.garantiadata.com",13628);
        //j.auth("rs87362c");
 
-       JedisPoolConfig poolConfig = new JedisPoolConfig();
-       poolConfig.setMaxTotal(128);
-	poolConfig.setMaxIdle(10);
-	poolConfig.setMinIdle(1);
+       
+	// // Create and set a JedisPoolConfig
+	JedisPoolConfig poolConfig = new JedisPoolConfig();
+
+	//// Tests (PING) whether connection is dead when connection retrieval method is called
+ 	poolConfig.setTestOnBorrow(false);
+	// Tests (PING) whether connection is dead when returning connection to the pool
+	poolConfig.setTestOnReturn(false);
+
+	//Tests (PING) whether connections are dead during idle periods
+        poolConfig.setTestWhileIdle(false);
+
+   	//Number of connections to Redis that can be in the pool
+      	poolConfig.setMaxTotal(50);
+
+ 	//Minimum number of idle connections to Redis. These can be seen as always open and ready to serve
+	poolConfig.setMinIdle(3);
+ 	
+	// Maximum number of idle connections to Redis
+	poolConfig.setMaxIdle(20);
+
+  	//Idle connection checking period
+	 poolConfig.setTimeBetweenEvictionRunsMillis(0);   // setting it to any onther value will trigger an eviction every period, and the number of max conns that will be evicted in every cycle is defined in the next param.
+
+
+        //Maximum number of connections to test in each idle check
+        poolConfig.setNumTestsPerEvictionRun(5);
+
+
 	poolConfig.setMaxWaitMillis(30000);
 
        JedisPool pool = new JedisPool(
