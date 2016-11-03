@@ -51,16 +51,16 @@ public class redis_connect {
 
        JedisPool pool = new JedisPool(
        		poolConfig,
-               "pub-redis-13628.us-east-1-2.1.ec2.garantiadata.com",
-               13628,
+               "redis-17773.c10.us-east-1-3.ec2.cloud.redislabs.com",
+               17773,              
                Protocol.DEFAULT_TIMEOUT,
-               "rs87362c"
+               "pXgI5OocM8JvxMjG"
        );
 
 	Jedis j = pool.getResource();
 	j.set("foo", "bar");
-       System.out.println(j.get("foo"));
-	pool.returnResource(j);
+        System.out.println(j.get("foo"));
+        j.close();
     }
 
 }
